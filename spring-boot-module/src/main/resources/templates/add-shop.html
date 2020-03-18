@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org">
+<head>
+    <title>Add shop</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <form
+            th:action="@{/shops/add}"
+            action="/shops/add"
+            th:object="${shop}"
+            method="post">
+        <span
+                th:if="${#fields.hasErrors ('name')}"
+                th:errors="*{name}"
+                style="color:red">
+        </span><br>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input th:field="*{name}" type="text" class="form-control" id="name" name="name">
+        </div>
+        <span
+                th:if="${#fields.hasErrors ('location')}"
+                th:errors="*{location}"
+                style="color:red">
+        </span>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input th:field="*{location}" type="text" class="form-control" id="location" name="location">
+        </div>
+        <button type="submit" class="btn btn-outline-success">Add shop</button>
+    </form>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

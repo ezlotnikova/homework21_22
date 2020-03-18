@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org">
+<head>
+    <title>Items</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody th:each="item:${items}">
+        <tr th:object="${item}">
+            <td>
+                <a class="btn btn-link"
+                   th:href="@{/items/{id}(id=*{id})}" href="#"
+                   role="button"
+                   th:text="*{name}">
+                    Item name
+                </a>
+            <td th:text="*{description}">Description</td>
+            <td th:text="*{price}">Price</td>
+            <td>
+                <form
+                        th:action="@{/items/delete/{id}(id=*{id})}"
+                        action="/items/delete"
+                        method="get">
+                    <input type="submit" class="btn btn-outline-danger" value="Delete"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-outline-success"
+       th:href="@{/items/add}"
+       href="/items/add"
+       role="button">
+        Add item
+    </a>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>
