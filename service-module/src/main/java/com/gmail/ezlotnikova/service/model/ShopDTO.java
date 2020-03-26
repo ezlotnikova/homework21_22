@@ -1,6 +1,5 @@
 package com.gmail.ezlotnikova.service.model;
 
-import java.util.Set;
 import javax.validation.constraints.Size;
 
 public class ShopDTO {
@@ -10,7 +9,6 @@ public class ShopDTO {
     private String name;
     @Size(min = 5, max = 100, message = "Must be between 5 and 100 characters long")
     private String location;
-    private Set<ItemDTO> items;
 
     public Long getId() {
         return id;
@@ -34,14 +32,6 @@ public class ShopDTO {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Set<ItemDTO> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<ItemDTO> items) {
-        this.items = items;
     }
 
 }

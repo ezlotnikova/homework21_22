@@ -3,12 +3,13 @@ package com.gmail.ezlotnikova.service;
 import java.util.List;
 
 import com.gmail.ezlotnikova.service.model.ItemDTO;
+import com.gmail.ezlotnikova.service.model.ItemWithShopsDTO;
 
 public interface ItemService {
 
-    ItemDTO add(ItemDTO item);
+    void add(ItemDTO item);
 
-    ItemDTO findById(Long id);
+    ItemWithShopsDTO findById(Long id);
 
     List<ItemDTO> findAll();
 

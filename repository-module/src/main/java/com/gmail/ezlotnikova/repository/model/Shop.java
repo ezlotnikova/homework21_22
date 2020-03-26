@@ -1,18 +1,11 @@
 package com.gmail.ezlotnikova.repository.model;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,13 +20,6 @@ public class Shop {
     private String name;
     @Column
     private String location;
-    @ManyToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "item_shop",
-            joinColumns = @JoinColumn(name = "shop_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id")
-    )
-    private Set<Item> items = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -59,14 +45,6 @@ public class Shop {
         this.location = location;
     }
 
-    public Set<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<Item> items) {
-        this.items = items;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,12 +55,13 @@ public class Shop {
         }
         Shop shop = (Shop) o;
         return Objects.equals(id, shop.id) &&
-                Objects.equals(items, shop.items);
+                Objects.equals(name, shop.name) &&
+                Objects.equals(location, shop.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, items);
+        return Objects.hash(id, name, location);
     }
 
 }

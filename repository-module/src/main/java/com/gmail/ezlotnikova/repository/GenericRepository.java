@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface GenericRepository<I, T> {
 
-    T add(T entity);
+    void persist(T entity);
 
     void merge(T entity);
 

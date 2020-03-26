@@ -2,16 +2,14 @@ package com.gmail.ezlotnikova.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.transaction.Transactional;
 
 import com.gmail.ezlotnikova.repository.ItemRepository;
-import com.gmail.ezlotnikova.repository.ShopRepository;
 import com.gmail.ezlotnikova.repository.model.Item;
-import com.gmail.ezlotnikova.repository.model.Shop;
 import com.gmail.ezlotnikova.service.ItemService;
 import com.gmail.ezlotnikova.service.converter.ItemConverter;
 import com.gmail.ezlotnikova.service.model.ItemDTO;
+import com.gmail.ezlotnikova.service.model.ItemWithShopsDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,28 +17,17 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemConverter itemConverter;
-    private final ShopRepository shopRepository;
 
-    public ItemServiceImpl(ItemRepository itemRepository, ItemConverter itemConverter, ShopRepository shopRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, ItemConverter itemConverter) {
         this.itemRepository = itemRepository;
         this.itemConverter = itemConverter;
-        this.shopRepository = shopRepository;
     }
 
     @Override
     @Transactional
-    public ItemDTO add(ItemDTO itemDTO) {
-        Item item = itemConverter.convertDTOtoDatabaseObject(itemDTO);
-        Item addedItem = itemRepository.add(item);
-        ItemDTO addedItemDTO = itemConverter.convertDatabaseObjectToDTO(addedItem);
-        return addedItemDTO;
-    }
-
-    @Override
-    public ItemDTO findById(Long id) {
-        Item item = itemRepository.findById(id);
-        ItemDTO itemDTO = itemConverter.convertDatabaseObjectToDTO(item);
-        return itemDTO;
+    public void add(ItemDTO itemDTO) {
+        Item item = itemConverter.getDTOFromDatabaseObject(itemDTO);
+        itemRepository.persist(item);
     }
 
     @Override
@@ -49,26 +36,23 @@ public class ItemServiceImpl implements ItemService {
         List<Item> items = itemRepository.findAll();
         List<ItemDTO> itemDTOList = new ArrayList<>();
         for (Item item : items) {
-            ItemDTO itemDTO = itemConverter.convertDatabaseObjectToDTO(item);
+            ItemDTO itemDTO = itemConverter.getDatabaseObjectFromDTO(item);
             itemDTOList.add(itemDTO);
         }
         return itemDTOList;
     }
 
     @Override
-    @Transactional
-    public void deleteItemById(Long id) {
-        deleteItemFromAllShops(id);
-        itemRepository.remove(
-                itemRepository.findById(id));
+    public ItemWithShopsDTO findById(Long id) {
+        Item item = itemRepository.findById(id);
+        return itemConverter.getItemWithShopsDTOFromItem(item);
     }
 
-    private void deleteItemFromAllShops(Long id) {
-        List<Shop> shops = shopRepository.findShopsWithItem(id);
-        for (Shop shop : shops) {
-            Set<Item> items = shop.getItems();
-            items.removeIf(item -> item.getId().equals(id));
-        }
+    @Override
+    @Transactional
+    public void deleteItemById(Long id) {
+        itemRepository.remove(
+                itemRepository.findById(id));
     }
 
 }

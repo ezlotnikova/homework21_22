@@ -2,7 +2,6 @@ package com.gmail.ezlotnikova.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import com.gmail.ezlotnikova.repository.ShopRepository;
@@ -26,23 +25,8 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public void add(ShopDTO shopDTO) {
-        Shop shop = shopConverter.convertDTOtoDatabaseObject(shopDTO);
-        shopRepository.add(shop);
-    }
-
-    @Override
-    @Transactional
-    public void update(ShopDTO shopDTO) {
-        Shop shop = shopConverter.convertDTOtoDatabaseObject(shopDTO);
-        shopRepository.merge(shop);
-    }
-
-    @Override
-    @Transactional
-    public ShopDTO findById(Long id) {
-        Shop shop = shopRepository.findById(id);
-        ShopDTO shopDTO = shopConverter.convertDatabaseObjectToDTO(shop);
-        return shopDTO;
+        Shop shop = shopConverter.getDTOFromDatabaseObject(shopDTO);
+        shopRepository.persist(shop);
     }
 
     @Override
@@ -51,18 +35,10 @@ public class ShopServiceImpl implements ShopService {
         List<Shop> shops = shopRepository.findAll();
         List<ShopDTO> shopDTOList = new ArrayList<>();
         for (Shop shop : shops) {
-            ShopDTO shopDTO = shopConverter.convertDatabaseObjectToDTO(shop);
+            ShopDTO shopDTO = shopConverter.getDatabaseObjectFromDTO(shop);
             shopDTOList.add(shopDTO);
         }
         return shopDTOList;
-    }
-
-    @Override
-    @Transactional
-    public List<ShopDTO> findShopsWithItem(Long id) {
-        return shopRepository.findShopsWithItem(id).stream()
-                .map(shopConverter::convertDatabaseObjectToDTO)
-                .collect(Collectors.toList());
     }
 
 }

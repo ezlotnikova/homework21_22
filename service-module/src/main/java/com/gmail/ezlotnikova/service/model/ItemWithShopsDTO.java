@@ -3,17 +3,14 @@ package com.gmail.ezlotnikova.service.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.Size;
 
-public class ItemDTO {
+public class ItemWithShopsDTO {
 
     private Long id;
-    @Size(min = 5, max = 40, message = "Must be between 5 and 40 characters long")
     private String name;
-    @Size(min = 5, max = 100, message = "Must be between 5 and 100 characters long")
     private String description;
     private BigDecimal price;
-    private List<Long> shopIds = new ArrayList<>();
+    private List<ShopDTO> shops = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -47,12 +44,12 @@ public class ItemDTO {
         this.price = price;
     }
 
-    public List<Long> getShopIds() {
-        return shopIds;
+    public List<ShopDTO> getShops() {
+        return shops;
     }
 
-    public void setShopIds(List<Long> shopIds) {
-        this.shopIds = shopIds;
+    public void setShops(List<ShopDTO> shops) {
+        this.shops = shops;
     }
 
 }

@@ -8,6 +8,9 @@
 </head>
 <body>
 <div class="container">
+    <a th:href="@{/}" href="/">
+        Back to menu
+    </a>
     <form
             th:action="@{/items/add}"
             action="/items/add"
@@ -38,14 +41,14 @@
         </span>
         <div class="form-group">
             <label for="price">Price</label>
-            <input th:field="*{price}" type="text" class="form-control" id="price" name="price">
+            <input th:field="*{price}" type="number" class="form-control" id="price" name="price">
         </div>
         <small class="form-text text-muted">
             Please select shops where this item will be available.
         </small>
         <div th:each="shop:${shops}">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="selectedShopIds" th:value="${shop.id}">
+                <input class="form-check-input" type="checkbox" th:field="${item.shopIds}" th:value="${shop.id}">
                 <label class="form-check-label" th:text="${shop.name}">
                     Shop Name
                 </label>

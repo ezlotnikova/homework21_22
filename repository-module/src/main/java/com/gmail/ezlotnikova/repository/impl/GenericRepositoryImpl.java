@@ -10,7 +10,7 @@ import com.gmail.ezlotnikova.repository.GenericRepository;
 
 public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
 
-    private Class<T> entityClass;
+    protected Class<T> entityClass;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -23,10 +23,8 @@ public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
     }
 
     @Override
-    public T add(T entity) {
+    public void persist(T entity) {
         entityManager.persist(entity);
-        entityManager.flush();
-        return entity;
     }
 
     @Override
@@ -47,7 +45,7 @@ public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
     @SuppressWarnings("unchecked")
     @Override
     public List<T> findAll() {
-        String query = "from " + entityClass.getName() + " c";
+        String query = "from " + entityClass.getName() + " AS c";
         Query q = entityManager.createQuery(query);
         return q.getResultList();
     }

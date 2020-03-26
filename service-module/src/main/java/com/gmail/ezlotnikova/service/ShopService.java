@@ -8,12 +8,6 @@ public interface ShopService {
 
     void add(ShopDTO shop);
 
-    ShopDTO findById(Long id);
-
-    void update(ShopDTO shop);
-
     List<ShopDTO> findAll();
-
-    List<ShopDTO> findShopsWithItem(Long id);
 
 }
