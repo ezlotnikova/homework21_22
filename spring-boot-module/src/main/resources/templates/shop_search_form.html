@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org">
+<head>
+    <title>Find shop</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <a th:href="@{/}" href="/">
+        Back to menu
+    </a>
+    <form
+            th:action="@{/shops/search(location=${location})}"
+            action="/shops"
+            th:object="${shop}"
+            method="get">
+        <div class="form-group">
+            Select your location:
+            <select th:name="location" class="form-control">
+                <option></option>
+                <option th:each="location:${locations}" th:text="${location}" th:value="${location}">Location</option>
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-outline-success">Search</button>
+    </form>
+</div>
+<script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

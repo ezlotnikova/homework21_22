@@ -29,7 +29,29 @@ public class ItemConverterImpl implements ItemConverter {
     }
 
     @Override
-    public ItemDTO getDatabaseObjectFromDTO(Item item) {
+    public Item getDatabaseObjectFromDTO(ItemDTO itemDTO) {
+        Item item = new Item();
+        String name = itemDTO.getName();
+        item.setName(name);
+        String description = itemDTO.getDescription();
+        item.setDescription(description);
+        BigDecimal price = itemDTO.getPrice();
+        ItemDetails itemDetails = new ItemDetails();
+        itemDetails.setPrice(price);
+        itemDetails.setItem(item);
+        item.setItemDetails(itemDetails);
+        List<Long> shopIds = itemDTO.getShopIds();
+        Set<Shop> shops = new HashSet<>();
+        for (Long id : shopIds) {
+            Shop shop = shopRepository.findById(id);
+            shops.add(shop);
+        }
+        item.setShops(shops);
+        return item;
+    }
+
+    @Override
+    public ItemDTO getDTOFromDatabaseObject(Item item) {
         ItemDTO itemDTO = new ItemDTO();
         Long id = item.getId();
         itemDTO.setId(id);
@@ -52,28 +74,6 @@ public class ItemConverterImpl implements ItemConverter {
     }
 
     @Override
-    public Item getDTOFromDatabaseObject(ItemDTO itemDTO) {
-        Item item = new Item();
-        String name = itemDTO.getName();
-        item.setName(name);
-        String description = itemDTO.getDescription();
-        item.setDescription(description);
-        BigDecimal price = itemDTO.getPrice();
-        ItemDetails itemDetails = new ItemDetails();
-        itemDetails.setPrice(price);
-        itemDetails.setItem(item);
-        item.setItemDetails(itemDetails);
-        List<Long> shopIds = itemDTO.getShopIds();
-        Set<Shop> shops = new HashSet<>();
-        for (Long id : shopIds) {
-            Shop shop = shopRepository.findById(id);
-            shops.add(shop);
-        }
-        item.setShops(shops);
-        return item;
-    }
-
-    @Override
     public ItemWithShopsDTO getItemWithShopsDTOFromItem(Item item) {
         ItemWithShopsDTO itemWithShops = new ItemWithShopsDTO();
         Long id = item.getId();
@@ -90,7 +90,7 @@ public class ItemConverterImpl implements ItemConverter {
         List<ShopDTO> shopDTOs = new ArrayList<>();
         Set<Shop> shops = item.getShops();
         for (Shop shop : shops) {
-            ShopDTO shopDTO = shopConverter.getDatabaseObjectFromDTO(shop);
+            ShopDTO shopDTO = shopConverter.getDTOFromDatabaseObject(shop);
             shopDTOs.add(shopDTO);
         }
         itemWithShops.setShops(shopDTOs);

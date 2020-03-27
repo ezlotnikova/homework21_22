@@ -25,7 +25,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     @Transactional
     public void add(ShopDTO shopDTO) {
-        Shop shop = shopConverter.getDTOFromDatabaseObject(shopDTO);
+        Shop shop = shopConverter.getDatabaseObjectFromDTO(shopDTO);
         shopRepository.persist(shop);
     }
 
@@ -35,10 +35,27 @@ public class ShopServiceImpl implements ShopService {
         List<Shop> shops = shopRepository.findAll();
         List<ShopDTO> shopDTOList = new ArrayList<>();
         for (Shop shop : shops) {
-            ShopDTO shopDTO = shopConverter.getDatabaseObjectFromDTO(shop);
+            ShopDTO shopDTO = shopConverter.getDTOFromDatabaseObject(shop);
             shopDTOList.add(shopDTO);
         }
         return shopDTOList;
+    }
+
+    @Transactional
+    @Override
+    public List<ShopDTO> findShopsByLocation(String location) {
+        List<Shop> shops = shopRepository.findShopsByLocation(location);
+        List<ShopDTO> shopDTOList = new ArrayList<>();
+        for (Shop shop : shops) {
+            ShopDTO shopDTO = shopConverter.getDTOFromDatabaseObject(shop);
+            shopDTOList.add(shopDTO);
+        }
+        return shopDTOList;
+    }
+
+    @Override
+    public List<String> getLocationsList() {
+        return shopRepository.getLocationsList();
     }
 
 }

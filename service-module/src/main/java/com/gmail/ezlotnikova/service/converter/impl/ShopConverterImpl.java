@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class ShopConverterImpl implements ShopConverter {
 
     @Override
-    public ShopDTO getDatabaseObjectFromDTO(Shop shop) {
+    public ShopDTO getDTOFromDatabaseObject(Shop shop) {
         ShopDTO shopDTO = new ShopDTO();
         Long id = shop.getId();
         shopDTO.setId(id);
@@ -21,7 +21,7 @@ public class ShopConverterImpl implements ShopConverter {
     }
 
     @Override
-    public Shop getDTOFromDatabaseObject(ShopDTO shopDTO) {
+    public Shop getDatabaseObjectFromDTO(ShopDTO shopDTO) {
         Shop shop = new Shop();
         String name = shopDTO.getName();
         shop.setName(name);

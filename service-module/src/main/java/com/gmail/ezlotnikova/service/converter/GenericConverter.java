@@ -2,8 +2,8 @@ package com.gmail.ezlotnikova.service.converter;
 
 public interface GenericConverter<DTO, T> {
 
-    DTO getDatabaseObjectFromDTO(T databaseObject);
+    T getDatabaseObjectFromDTO(DTO dto);
 
-    T getDTOFromDatabaseObject(DTO dto);
+    DTO getDTOFromDatabaseObject(T databaseObject);
 
 }

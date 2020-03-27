@@ -13,7 +13,7 @@ public class GenericRepositoryImpl<I, T> implements GenericRepository<I, T> {
     protected Class<T> entityClass;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @SuppressWarnings("unchecked")
     public GenericRepositoryImpl() {

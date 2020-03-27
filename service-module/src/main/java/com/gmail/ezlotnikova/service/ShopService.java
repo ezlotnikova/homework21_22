@@ -10,4 +10,8 @@ public interface ShopService {
 
     List<ShopDTO> findAll();
 
+    List<ShopDTO> findShopsByLocation(String location);
+
+    List<String> getLocationsList();
+
 }
